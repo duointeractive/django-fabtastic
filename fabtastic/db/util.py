@@ -17,3 +17,16 @@ def get_db_setting(db_setting, db_alias='default'):
         return settings.DATABASE[db_alias][db_setting]
     else:
         return getattr(settings, 'DATABASE_%s' % db_setting.upper())
+    
+def get_db_setting_dict():
+    """
+    Returns a dict of DB settings, as per the Django 1.2 DATABASE settings.py
+    dict. This can be used as a compatibility measure for Django 1.1 and
+    earlier.
+    """
+    return {'ENGINE': get_db_setting('ENGINE'),
+            'NAME': get_db_setting('NAME'),
+            'USER': get_db_setting('USER'),
+            'PASSWORD': get_db_setting('PASSWORD'),
+            'HOST': get_db_setting('HOST'),
+            'PORT': get_db_setting('PORT')}

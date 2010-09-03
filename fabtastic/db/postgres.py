@@ -1,6 +1,6 @@
 import os
 import stat
-from subprocess import call
+from subprocess import Popen, PIPE
 
 def set_pgpass(database):
     """
@@ -16,9 +16,9 @@ def set_pgpass(database):
     db_user = database['USER']
     db_pass = database['PASSWORD']
     
-    if db_host is not '':
+    if db_host is '':
         db_host = "*"
-    if db_port is not '':
+    if db_port is '':
         db_port = "*"
     
     fd = open(pgpass_file, 'wb')
@@ -40,8 +40,8 @@ def backup_to_tmp(dump_path, database, no_password_prompt=False):
     You will probably want to run _remove_tmp_backup(db_filepath) after doing
     whatever you need to do with the file.
     """
-    #print("Backing up database '%s'. This may take a minute or so..." % db_name)
-    print "DAT", database
+    # Set a .pgpass file up so we're not prompted for a password.
+    set_pgpass(database)
     
     cmd = ['pg_dump', '-i']
     
@@ -55,21 +55,19 @@ def backup_to_tmp(dump_path, database, no_password_prompt=False):
         cmd.append('--no-password')
         
     cmd.append('--username=%s' % database['USER'])
-    cmd.append('--file=%s' % dump_path)
     cmd.append('--format=tar')
     cmd.append(database['NAME'])
     
-    print cmd
-    call(cmd)
+    print "pg_dumping database '%s' to %s" % (database['NAME'], dump_path)
     
-    print "pg_dumping to %s" % dump_path
+    # Run pg_dump
+    db_dump = Popen(cmd, stdout=PIPE)
+    # Open the eventual .tar.bz2 file for writing by bzip2.
+    tfile = open(dump_path, 'w')
+    # Use bzip2 to dump into the open file handle via stdout.
+    db_bzip = Popen(['bzip2'], stdin=db_dump.stdout, stdout=tfile)
+    db_bzip.wait()
+    tfile.close()
     
-    """
-    run("pg_dump -i -h %s -U %s %s | gzip > %s" % (database['HOST'], 
-                                                   database['USER'],
-                                                   database['NAME'],
-                                                   database['PORT'], 
-                                                   dump_path))
-    """
-    #run("pg_dump -i -h %s -U %s %s | gzip > %s" % (db_host, db_user, db_name, 
-    #                                               db_filepath))
+    print "Database dump complete."
+    
