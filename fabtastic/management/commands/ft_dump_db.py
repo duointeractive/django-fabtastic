@@ -36,4 +36,4 @@ class Command(BaseCommand):
         dump_path = self.get_dump_path()
 
         # Run the db dump.
-        db.backup_to_tmp(dump_path, self.DATABASE)
+        db.dump_db_to_file(dump_path, self.DATABASE)

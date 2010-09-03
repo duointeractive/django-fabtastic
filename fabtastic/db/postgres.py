@@ -1,6 +1,6 @@
 import os
 import stat
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, call
 
 def set_pgpass(database):
     """
@@ -28,23 +28,15 @@ def set_pgpass(database):
     
     perms = stat.S_IRUSR | stat.S_IWUSR
     os.chmod(pgpass_file, perms)
-
-def backup_to_tmp(dump_path, database, no_password_prompt=False):
+    
+def add_common_options_to_cmd(cmd, database, no_password_prompt=False,
+                              **kwargs):
     """
-    Backs up the current ligonier DB to a .gz file, stashed in /tmp/.
+    Adds some commonly used options to the given command string. psql,
+    pg_dump, pg_restore, and a few others have some flags in common.
     
-    Returns a tuple in the format of (filename, full_file_path). For example: 
-    
-        (ligonier-<dtime>.sql.gz, /tmp/ligonier-<dtime.sql.gz)
-        
-    You will probably want to run _remove_tmp_backup(db_filepath) after doing
-    whatever you need to do with the file.
+    cmd: (list) A command list, in format for Popen/call().
     """
-    # Set a .pgpass file up so we're not prompted for a password.
-    set_pgpass(database)
-    
-    cmd = ['pg_dump', '-i']
-    
     if database['HOST'] is not '':
         cmd.append('--host=%s' % database['HOST'])
         
@@ -55,6 +47,27 @@ def backup_to_tmp(dump_path, database, no_password_prompt=False):
         cmd.append('--no-password')
         
     cmd.append('--username=%s' % database['USER'])
+
+def dump_db_to_file(dump_path, database, **kwargs):
+    """
+    pg_dumps the specified database to a given path. Passes output through
+    bzip2 for compression.
+    
+    dump_path: (str) Complete path (with filename) to pg_dump out to.
+    database: (dict) Django 1.2 style DATABASE settings dict.
+    no_password_prompt: (bool) When True, never prompt for password, and fail
+                               if none is provided by env variables or .pgpass.
+                               
+    Returns the path that was dumped to.
+    """
+    # Set a .pgpass file up so we're not prompted for a password.
+    set_pgpass(database)
+    
+    cmd = ['pg_dump', '-i']
+    
+    # Add some common postgres options.
+    add_common_options_to_cmd(cmd, database, **kwargs)
+        
     cmd.append('--format=tar')
     cmd.append(database['NAME'])
     
@@ -71,3 +84,42 @@ def backup_to_tmp(dump_path, database, no_password_prompt=False):
     
     print "Database dump complete."
     
+    return dump_path
+
+def drop_db(database, **kwargs):
+    """
+    Drops the specified database.
+    """
+    # Set a .pgpass file up so we're not prompted for a password.
+    set_pgpass(database)
+    
+    cmd = ['dropdb']
+    
+    # Add some common postgres options.
+    add_common_options_to_cmd(cmd, database, **kwargs)
+    
+    cmd.append(database['NAME'])
+    
+    print cmd
+    
+    call(cmd)
+
+def restore_db_from_file(dump_path, database, **kwargs):
+    """
+    Restores the specified database from a pg_dump file.
+    
+    dump_path: (str) Complete path (with filename) to pg_restore from.
+    database: (dict) Django 1.2 style DATABASE settings dict.
+    """
+    # Set a .pgpass file up so we're not prompted for a password.
+    set_pgpass(database)
+    
+    cmd = ['pg_restore', '-i']
+    
+    # Add some common postgres options.
+    add_common_options_to_cmd(cmd, database, **kwargs)
+
+    cmd.append('--format=tar')
+    cmd.append(dump_path)
+    
+    call(cmd)
