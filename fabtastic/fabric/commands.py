@@ -15,6 +15,6 @@ def get_remote_db():
     dump_filename = db.util.get_db_dump_filename()
     
     with cd(env.REMOTE_CODEBASE_PATH):
-        run("workon %s && ./manage.py ft_dump %s" % (
+        run("workon %s && ./manage.py ft_dump_db %s" % (
             env.REMOTE_VIRTUALENV_NAME,
             dump_filename))
