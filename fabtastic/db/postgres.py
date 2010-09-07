@@ -51,7 +51,7 @@ def add_common_options_to_cmd(cmd, database, no_password_prompt=False,
         
     cmd.append('--username=%s' % database['USER'])
 
-def dump_db_to_file(dump_path, database, **kwargs):
+def dump_db_to_file(dump_path, database, no_owner=True, **kwargs):
     """
     pg_dumps the specified database to a given path. Passes output through
     bzip2 for compression.
@@ -71,7 +71,9 @@ def dump_db_to_file(dump_path, database, **kwargs):
     # Add some common postgres options.
     add_common_options_to_cmd(cmd, database, **kwargs)
         
-    cmd.append('--format=plain')
+    cmd.append('--format=p')
+    if no_owner:
+        cmd.append('--no-owner')
     cmd.append(database['NAME'])
     
     print "pg_dumping database '%s' to %s" % (database['NAME'], dump_path)
@@ -138,14 +140,15 @@ def restore_db_from_file(dump_path, database, **kwargs):
     # Set a .pgpass file up so we're not prompted for a password.
     set_pgpass(database)
     
-    cmd = ['pg_restore', '-i']
+    cmd = ['psql', '-q']
     
     # Add some common postgres options.
     add_common_options_to_cmd(cmd, database, **kwargs)
 
-    cmd.append('--format=tar')
+    # Plain
+    #cmd.append('--format=p')
     cmd.append('--dbname=%s' % database['NAME'])
-    cmd.append(decompresed_path)
+    cmd.append('--file=%s' % decompresed_path)
 
     print "Running pg_restore"
     # Run the assembled pg_restore above.

@@ -25,7 +25,7 @@ def get_remote_db():
         run("rm %s" % dump_filename)
 
     local('./manage.py ft_restore_db %s' % dump_filename, capture=False)
-    local('rm %s' % dump_filename)
+    #local('rm %s' % dump_filename)
         
 def testit():
     output = local('./manage.py ft_dump_db woot', capture=False)
