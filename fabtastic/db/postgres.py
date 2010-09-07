@@ -70,10 +70,13 @@ def dump_db_to_file(dump_path, database, no_owner=True, **kwargs):
     
     # Add some common postgres options.
     add_common_options_to_cmd(cmd, database, **kwargs)
-        
+    
+    # Plain formatting
     cmd.append('--format=p')
+
     if no_owner:
         cmd.append('--no-owner')
+
     cmd.append(database['NAME'])
     
     print "pg_dumping database '%s' to %s" % (database['NAME'], dump_path)
@@ -145,8 +148,6 @@ def restore_db_from_file(dump_path, database, **kwargs):
     # Add some common postgres options.
     add_common_options_to_cmd(cmd, database, **kwargs)
 
-    # Plain
-    #cmd.append('--format=p')
     cmd.append('--dbname=%s' % database['NAME'])
     cmd.append('--file=%s' % decompresed_path)
 
