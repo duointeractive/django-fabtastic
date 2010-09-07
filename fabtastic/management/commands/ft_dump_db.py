@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.contenttypes.models import ContentType
 from fabtastic import db
@@ -16,11 +15,7 @@ class Command(BaseCommand):
         if len(self.args) > 0:
             return self.args[0]
         else:
-            today = datetime.today()
-            dump_filename = "%s-%s.sql.tar.bz2" %  (
-                self.DATABASE['NAME'], 
-                today.strftime("%Y_%m_%d-%H%M"),
-            )
+            dump_filename = db.util.get_db_dump_filename()
             return os.path.join(os.getcwd(), dump_filename)
         
     def handle(self, *args, **options):
