@@ -71,7 +71,7 @@ def dump_db_to_file(dump_path, database, **kwargs):
     # Add some common postgres options.
     add_common_options_to_cmd(cmd, database, **kwargs)
         
-    cmd.append('--format=tar')
+    cmd.append('--format=plain')
     cmd.append(database['NAME'])
     
     print "pg_dumping database '%s' to %s" % (database['NAME'], dump_path)
