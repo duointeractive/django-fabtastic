@@ -1,5 +1,6 @@
 import os
 import stat
+from bz2 import BZ2File
 from subprocess import Popen, PIPE, call
 
 def set_pgpass(database):
@@ -12,14 +13,16 @@ def set_pgpass(database):
     
     db_host = database['HOST']
     db_port = database['PORT']
-    db_name = database['NAME']
+    #db_name = database['NAME']
+    # Wildcarded for dropdb.
+    db_name = '*'
     db_user = database['USER']
     db_pass = database['PASSWORD']
     
     if db_host is '':
-        db_host = "*"
+        db_host = '*'
     if db_port is '':
-        db_port = "*"
+        db_port = '*'
     
     fd = open(pgpass_file, 'wb')
     # host:port:database:username:password
@@ -100,8 +103,21 @@ def drop_db(database, **kwargs):
     
     cmd.append(database['NAME'])
     
-    print cmd
+    call(cmd)
     
+def create_db(database, **kwargs):
+    """
+    Creates the specified database.
+    """
+    # Set a .pgpass file up so we're not prompted for a password.
+    set_pgpass(database)
+    
+    cmd = ['createdb']
+    
+    add_common_options_to_cmd(cmd, database, no_password_prompt=False)
+    
+    cmd.append('--owner=%s' % database['USER'])
+    cmd.append(database['NAME'])
     call(cmd)
 
 def restore_db_from_file(dump_path, database, **kwargs):
@@ -111,6 +127,14 @@ def restore_db_from_file(dump_path, database, **kwargs):
     dump_path: (str) Complete path (with filename) to pg_restore from.
     database: (dict) Django 1.2 style DATABASE settings dict.
     """
+    decompress = ['bunzip2', '--keep', dump_path]
+    print "De-compressing %s" % dump_path
+    call(decompress)
+    
+    # Yank the .bz2 off of the end of the dump_path, now that it's
+    # decompressed.
+    decompresed_path = dump_path[:-4]
+    
     # Set a .pgpass file up so we're not prompted for a password.
     set_pgpass(database)
     
@@ -120,6 +144,15 @@ def restore_db_from_file(dump_path, database, **kwargs):
     add_common_options_to_cmd(cmd, database, **kwargs)
 
     cmd.append('--format=tar')
-    cmd.append(dump_path)
+    cmd.append('--dbname=%s' % database['NAME'])
+    cmd.append(decompresed_path)
+
+    print "Running pg_restore"
+    # Run the assembled pg_restore above.
+    Popen(cmd).wait()
     
-    call(cmd)
+    # Get rid of the decompressed db dump.
+    del_decompressed = ['rm', '-f', decompresed_path]
+    call(del_decompressed)
+    
+    print "Restoration complete."

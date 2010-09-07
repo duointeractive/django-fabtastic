@@ -24,6 +24,9 @@ class Command(BaseCommand):
         # Get DB settings from settings.py.
         database_dict = db.util.get_db_setting_dict()
 
-        # Run the db dump.
+        # Drop the DB.
         db.drop_db(database_dict)
-        #db.restore_db_from_file(dump_path, self.DATABASE)
+        # Re-create an empty DB with the same name.
+        db.create_db(database_dict)
+        # Restore from the DB dump.
+        db.restore_db_from_file(dump_path, database_dict)
