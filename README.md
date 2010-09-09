@@ -57,3 +57,21 @@ manage.py commands and some includable Fabric scripts that call them as needed.
 In this way, we find ourselves with a useful set of management and deployment
 commands that are guaranteed to always have the correct settings and
 Django environment on all of our machines: local, staging, or production.
+
+## Installation
+
+Right now, Fabtastic is only available via this github repository. Fortunately,
+`pip` can pull directly from it.
+
+* Add `git+http://github.com/duointeractive/django-fabtastic.git#egg=fabtastic`
+  to your requirements.txt file.
+* Run `pip install git+http://github.com/duointeractive/django-fabtastic.git#egg=fabtastic`
+  manually to install it.
+* Add `fabtastic` to your `INSTALLED_APPS` in settings.py.
+* If you run `./manage.py help`, you should now see some more commands.
+* Read on to the fabfile.py construction section in this README.
+
+## Staying up to date
+
+At any time, you may run `./manage.py ft_update_fabtastic` to get the latest
+version. There is also a Fabric task included, `update_fabtastic`.
