@@ -13,6 +13,23 @@ philosophy on deployment, and is what we use for our own projects.
 This Django app can be dropped into any project, providing you with a quick, 
 easy, standardized deployment method.
 
+## Why would I use fabtastic?
+
+These are just based on what we wanted in a deployment system, so you may not
+find these to be compelling reasons for your project(s).
+
+* We like Python, and wanted a simple Python-based deployment solution.
+* We like [Fabric](http://docs.fabfile.org/). It's simple and works really
+  well for us.
+* We did not like maintaining a mess of slightly different fabfiles for our
+  handful of projects in production and development. Whenever an enhancement
+  was made to one, we had to spend time porting it to the other projects for
+  them to benefit from the enhancements.
+* Our deployments were similar enough to pretty much do the same exact
+  steps to deploy them all. We can now toss the example fabfile.py into each
+  of our projects, add fabtastic to our Django settings.py, and we're on
+  our way to worrying about more important stuff like developing the product.
+
 ## Notes and assumptions
 
 django-fabtastic does not attempt to be a one-size-fits-all solution. It is
