@@ -20,13 +20,13 @@ our fabfile.py, but you don't have to.
 """
 # The path on your servers to your codebase's root directory. This needs to
 # be the same for all of your servers. Worse case, symlink away.
-env.REMOTE_CODEBASE_PATH = '/home/ligweb/ligonier'
+env.REMOTE_CODEBASE_PATH = '/home/account/codebase'
 # Path relative to REMOTE_CODEBASE_PATH.
 env.PIP_REQUIREMENTS_PATH = 'requirements.txt'
 # This is used for reloading gunicorn processes after code updates.
 env.GUNICORN_PID_PATH = os.path.join(env.REMOTE_CODEBASE_PATH, 'gunicorn.pid')
 # The standardized virtualenv name to use.
-env.REMOTE_VIRTUALENV_NAME = 'ligonier'
+env.REMOTE_VIRTUALENV_NAME = 'your_virtualenv'
 
 def staging():
     """
