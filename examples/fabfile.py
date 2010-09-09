@@ -12,6 +12,11 @@ from fabric.api import *
 # from fabtastic.fabric.commands.git import git_pull
 from fabtastic.fabric.commands import *
 
+"""
+Here are some deployment related settings. These can be pulled from your
+settings.py if you'd prefer. We keep strictly deployment-related stuff in
+our fabfile.py, but you don't have to.
+"""
 # The path on your servers to your codebase's root directory. This needs to
 # be the same for all of your servers. Worse case, symlink away.
 env.REMOTE_CODEBASE_PATH = '/home/ligweb/ligonier'
