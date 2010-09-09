@@ -96,3 +96,5 @@ following line might need to be made a little more specific:
 
 It is important to note that you can selectively import commands from
 `fabtastic.fabric.commands`. See the note and example in `examples/fabfile.py`.
+For a full list of modules, check your `fabtastic/fabric/commands` directory,
+or look at our [git repository](http://github.com/duointeractive/django-fabtastic/tree/master/fabtastic/fabric/commands/).
