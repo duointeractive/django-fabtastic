@@ -75,3 +75,24 @@ Right now, Fabtastic is only available via this github repository. Fortunately,
 
 At any time, you may run `./manage.py ft_update_fabtastic` to get the latest
 version. There is also a Fabric task included, `update_fabtastic`.
+
+## fabfile.py Construction
+
+If you downloaded the source distribution, take a look at your `examples/`
+directory. The most common example will be in `fabfile.py`. If you installed
+via pip, you can point your browser at it 
+[here](http://github.com/duointeractive/django-fabtastic/blob/master/examples/fabfile.py)
+to follow along.
+
+The important thing to note is that all we are doing in the fabfile is pulling
+whatever we want together. You are free to mix in your own custom commands,
+selectively use ours, or use all of ours plus some of your own.
+
+django-fabtastic is primarily for DUO's deployments, so some of it is aimed to
+fit our usage case. As is such, unless you use all of our dependencies, the
+following line might need to be made a little more specific:
+
+    from fabtastic.fabric.commands import *
+
+It is important to note that you can selectively import commands from
+`fabtastic.fabric.commands`. See the note and example in `examples/fabfile.py`.
