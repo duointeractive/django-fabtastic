@@ -9,8 +9,8 @@ from fabric.api import *
 # This will import every command, you may need to get more selective if
 # you aren't using all of the stuff we do.
 # For example:
-# from fabtastic.fabric.commands.common import *
-# from fabtastic.fabric.commands.git import git_pull
+# from fabtastic.fabric.commands.c_common import *
+# from fabtastic.fabric.commands.c_git import git_pull
 from fabtastic.fabric.commands import *
 
 """
