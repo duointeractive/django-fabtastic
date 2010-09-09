@@ -35,20 +35,20 @@ def flush_cache(roles='webapp_servers'):
         with cd(env.REMOTE_VIRTUALENV_NAME):
             run("workon %s && ./manage.py ft_clear_cache" % env.REMOTE_VIRTUALENV_NAME)
             
-def update_pip_reqs(roles='webapp_servers'):
+def pip_update_reqs(roles='webapp_servers'):
     """
     Updates your virtualenv from requirements.txt.
     """
     if _current_host_has_role(roles):
         print("=== UPDATING REQUIREMENTS ===")
         with cd(env.REMOTE_VIRTUALENV_NAME):
-            run("workon %s && ./manage.py ft_update_pip_reqs" % env.REMOTE_VIRTUALENV_NAME)
+            run("workon %s && ./manage.py ft_pip_update_reqs" % env.REMOTE_VIRTUALENV_NAME)
 
-def update_fabtastic(roles='webapp_servers'):
+def fabtastic_update(roles='webapp_servers'):
     """
     Updates your copy of django-fabtastic from the git repository.
     """
     if _current_host_has_role(roles):
         print("=== UPDATING FABTASTIC ===")
         with cd(env.REMOTE_VIRTUALENV_NAME):
-            run("workon %s && ./manage.py ft_update_fabtastic" % env.REMOTE_VIRTUALENV_NAME)
+            run("workon %s && ./manage.py ft_fabtastic_update" % env.REMOTE_VIRTUALENV_NAME)

@@ -23,6 +23,8 @@ our fabfile.py, but you don't have to.
 env.REMOTE_CODEBASE_PATH = '/home/ligweb/ligonier'
 # Path relative to REMOTE_CODEBASE_PATH.
 env.PIP_REQUIREMENTS_PATH = 'requirements.txt'
+# This is used for reloading gunicorn processes after code updates.
+env.GUNICORN_PID_PATH = os.path.join(env.REMOTE_CODEBASE_PATH, 'gunicorn.pid')
 # The standardized virtualenv name to use.
 env.REMOTE_VIRTUALENV_NAME = 'ligonier'
 
@@ -56,11 +58,11 @@ def deploy():
     Full git deployment. Migrations, reloading gunicorn.
     """
     git_pull()
-    migrate_db_schema_via_south()
-    reload_gunicorn()
+    south_migrate()
+    gunicorn_reload()
     flush_cache()
     # Un-comment this if you have mediasync installed to sync on deploy.
-    #_mediasync_with_s3()
+    #mediasync_syncmedia()
 
 def deploy_soft():
     """

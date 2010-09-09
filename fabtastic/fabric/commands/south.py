@@ -1,7 +1,7 @@
 from fabric.api import *
 from fabtastic.fabric.util import _current_host_has_role
 
-def migrate_db_schema_via_south():
+def south_migrate():
     """
     Migrates the DB schema with South. Sets already_db_migrated to prevent
     double migrations.

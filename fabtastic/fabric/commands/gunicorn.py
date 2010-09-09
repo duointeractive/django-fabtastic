@@ -1,7 +1,7 @@
 from fabric.api import *
 from fabtastic.fabric.util import _current_host_has_role
 
-def reload_gunicorn():
+def gunicorn_reload():
     """
     Reloads gunicorn. This must be done to re-compile the code after a new
     revision has been checked out.
@@ -10,3 +10,4 @@ def reload_gunicorn():
         print("=== RESTARTING GUNICORN WEBAPP NODE ===")
         with cd(env.REMOTE_CODEBASE_PATH):
             run("workon %s && ./manage.py ft_gunicorn_restart" % env.REMOTE_VIRTUALENV_NAME)
+        print("Gunicorn reloaded")

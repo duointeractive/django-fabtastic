@@ -1,7 +1,7 @@
 from fabric.api import *
 from fabtastic.fabric.util import _current_host_has_role
 
-def mediasync_with_s3(roles='webapp_servers'):
+def mediasync_syncmedia(roles='webapp_servers'):
     """
     Syncs the checked out git media with S3.
     """
