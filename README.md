@@ -69,7 +69,9 @@ Right now, Fabtastic is only available via this github repository. Fortunately,
   manually to install it.
 * Add `fabtastic` to your `INSTALLED_APPS` in settings.py.
 * If you run `./manage.py help`, you should now see some more commands.
-* Read on to the fabfile.py construction section in this README.
+* Read on to the fabfile.py construction section in this README. Generally you
+  can copy the [example fabfile.py](http://github.com/duointeractive/django-fabtastic/blob/master/examples/fabfile.py)
+  to your project and modify it as needed.
 
 ## Staying up to date
 
