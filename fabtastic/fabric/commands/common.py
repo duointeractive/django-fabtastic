@@ -51,4 +51,4 @@ def update_fabtastic(roles='webapp_servers'):
     if _current_host_has_role(roles):
         print("=== UPDATING FABTASTIC ===")
         with cd(env.REMOTE_VIRTUALENV_NAME):
-            run("workon %s && ./manage.py ft_update_fabtastic")
+            run("workon %s && ./manage.py ft_update_fabtastic" % env.REMOTE_VIRTUALENV_NAME)
