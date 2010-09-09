@@ -6,8 +6,8 @@ The modules in this package can be imported in their entirety:
     
 or selectively imported:
 
-    from fabtastic.fabric.commands.common import *
-    from fabtastic.fabric.commands.git import git_pull
+    from fabtastic.fabric.commands.c_common import *
+    from fabtastic.fabric.commands.c_git import git_pull
     
 We could waste space here describing what each module does, but generally,
 each is named after the software they work with or help deploy.
