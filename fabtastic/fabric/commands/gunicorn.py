@@ -9,4 +9,4 @@ def reload_gunicorn():
     if _current_host_has_role('webapp_servers'):
         print("=== RESTARTING GUNICORN WEBAPP NODE ===")
         with cd(env.REMOTE_CODEBASE_PATH):
-            run("./manage.py ft_gunicorn_restart")
+            run("workon %s && ./manage.py ft_gunicorn_restart" % env.REMOTE_VIRTUALENV_NAME)

@@ -7,5 +7,5 @@ def git_pull(roles='webapp_servers'):
     """
     if _current_host_has_role(roles):
         print("=== PULLING FROM GIT ===")
-        with cd(env.REMOTE_VIRTUALENV_NAME):
+        with cd(env.REMOTE_CODEBASE_PATH):
             run("git pull")
