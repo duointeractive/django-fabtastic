@@ -59,7 +59,7 @@ def deploy():
     """
     git_pull()
     south_migrate()
-    gunicorn_reload()
+    gunicorn_restart_workers()
     flush_cache()
     # Un-comment this if you have mediasync installed to sync on deploy.
     #mediasync_syncmedia()
