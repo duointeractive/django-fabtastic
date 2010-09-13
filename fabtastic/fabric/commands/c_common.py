@@ -21,7 +21,7 @@ def get_remote_db(roles='webapp_servers'):
             run("rm %s" % dump_filename)
     
         # In a multi-host environment, target hostname is appended. Bleh.
-        new_filename = '%s.%s' % (dump_filename, env['host_string'])
+        new_filename = '%s.%s' % (dump_filename, env['host'])
         # Move it back to what it should be.
         local('mv %s %s' % (new_filename, dump_filename))
         local('./manage.py ft_restore_db %s' % new_filename, capture=False)
