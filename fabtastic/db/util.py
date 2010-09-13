@@ -14,8 +14,8 @@ def get_db_setting(db_setting, db_alias='default'):
     db_alias: (str) In the case of settings in Django 1.2 format, get settings
                     for a DB other than the default.
     """
-    if hasattr(settings, 'DATABASE'):
-        return settings.DATABASE[db_alias][db_setting]
+    if hasattr(settings, 'DATABASES'):
+        return settings.DATABASES[db_alias][db_setting]
     else:
         return getattr(settings, 'DATABASE_%s' % db_setting.upper())
     

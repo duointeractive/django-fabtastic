@@ -3,7 +3,7 @@ from fabtastic.db import util
 
 db_engine = util.get_db_setting('ENGINE')
 
-if db_engine in ['postgresql_psycopg2', 'postgresql']:
+if 'postgresql_psycopg2' in db_engine:
     from fabtastic.db.postgres import *
 else:
     raise NotImplementedError("Fabtastic: DB engine '%s' is not supported" % db_engine)
