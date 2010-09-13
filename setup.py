@@ -1,7 +1,7 @@
 from distutils.core import setup
 import fabtastic
 
-long_description = open('README.md').read()
+long_description = open('README.rst').read()
 
 setup(
     name='django-fabtastic',
@@ -13,6 +13,7 @@ setup(
               'fabtastic.management',
               'fabtastic.management.commands'],
     description='A Django app that uses Django manage.py extension commands with Fabric for deployment.',
+    long_description=long_description,
     author='Gregory Taylor',
     author_email='gtaylor@duointeractive.com',
     license='BSD License',
