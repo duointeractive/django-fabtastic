@@ -92,8 +92,8 @@ Right now, Fabtastic is only available via this github repository. Fortunately,
 
 ## Staying up to date
 
-At any time, you may run `./manage.py ft_update_fabtastic` to get the latest
-version. There is also a Fabric task included, `update_fabtastic`.
+At any time, you may run `./manage.py ft_fabtastic_update` to get the latest
+version. There is also a Fabric task included, `fabtastic_update`.
 
 ## fabfile.py Construction
 
