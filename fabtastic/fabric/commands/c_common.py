@@ -24,8 +24,8 @@ def get_remote_db(roles='webapp_servers'):
         new_filename = '%s.%s' % (dump_filename, env['host'])
         # Move it back to what it should be.
         local('mv %s %s' % (new_filename, dump_filename))
-        local('./manage.py ft_restore_db %s' % new_filename, capture=False)
-        local('rm %s' % new_filename)
+        local('./manage.py ft_restore_db %s' % dump_filename, capture=False)
+        local('rm %s' % dump_filename)
         
         # Die after this to prevent executing this with more hosts.
         sys.exit(0)
