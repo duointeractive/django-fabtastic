@@ -19,7 +19,8 @@ def get_remote_db(roles='webapp_servers'):
             run("workon %s && ./manage.py ft_dump_db %s" % (
                 env.REMOTE_VIRTUALENV_NAME,
                 dump_filename))
-            get(dump_path, dump_filename)
+            raw = get(dump_path, dump_filename)
+            print "RAW", raw
             run("rm %s" % dump_filename)
     
         local('./manage.py ft_restore_db %s' % dump_filename, capture=False)
