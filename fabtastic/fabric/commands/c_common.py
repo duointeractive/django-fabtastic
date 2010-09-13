@@ -32,7 +32,7 @@ def flush_cache(roles='webapp_servers'):
     """
     if _current_host_has_role(roles):
         print("=== FLUSHING CACHE ===")
-        with cd(env.REMOTE_VIRTUALENV_NAME):
+        with cd(env.REMOTE_CODEBASE_PATH):
             run("workon %s && ./manage.py ft_clear_cache" % env.REMOTE_VIRTUALENV_NAME)
             
 def pip_update_reqs(roles='webapp_servers'):
@@ -41,7 +41,7 @@ def pip_update_reqs(roles='webapp_servers'):
     """
     if _current_host_has_role(roles):
         print("=== UPDATING REQUIREMENTS ===")
-        with cd(env.REMOTE_VIRTUALENV_NAME):
+        with cd(env.REMOTE_CODEBASE_PATH):
             run("workon %s && ./manage.py ft_pip_update_reqs" % env.REMOTE_VIRTUALENV_NAME)
 
 def fabtastic_update(roles='webapp_servers'):
@@ -50,5 +50,5 @@ def fabtastic_update(roles='webapp_servers'):
     """
     if _current_host_has_role(roles):
         print("=== UPDATING FABTASTIC ===")
-        with cd(env.REMOTE_VIRTUALENV_NAME):
+        with cd(env.REMOTE_CODEBASE_PATH):
             run("workon %s && ./manage.py ft_fabtastic_update" % env.REMOTE_VIRTUALENV_NAME)
