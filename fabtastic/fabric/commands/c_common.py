@@ -20,7 +20,8 @@ def get_remote_db(roles='webapp_servers'):
             get(dump_path, dump_filename)
             run("rm %s" % dump_filename)
     
-        # In a multi-host environment, target hostname is appended. Bleh.
+        # In a multi-host environment, target hostname is appended by Fabric.
+        # TODO: Make this use Fabric 1.0's improved get() when it's released.
         new_filename = '%s.%s' % (dump_filename, env['host'])
         # Move it back to what it should be.
         local('mv %s %s' % (new_filename, dump_filename))
