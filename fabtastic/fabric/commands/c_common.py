@@ -12,15 +12,12 @@ def get_remote_db(roles='webapp_servers'):
     if _current_host_has_role(roles):
         dump_filename = db.util.get_db_dump_filename()
         dump_path = os.path.join(env.REMOTE_CODEBASE_PATH, dump_filename)
-        print "DUMP FILENAME", dump_filename
-        print "DUMP PATH", dump_path
         
         with cd(env.REMOTE_CODEBASE_PATH):
             run("workon %s && ./manage.py ft_dump_db %s" % (
                 env.REMOTE_VIRTUALENV_NAME,
                 dump_filename))
             raw = get(dump_path, dump_filename)
-            print "RAW", raw
             run("rm %s" % dump_filename)
     
         local('./manage.py ft_restore_db %s' % dump_filename, capture=False)
