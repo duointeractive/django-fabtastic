@@ -17,11 +17,13 @@ def get_remote_db(roles='webapp_servers'):
             run("workon %s && ./manage.py ft_dump_db %s" % (
                 env.REMOTE_VIRTUALENV_NAME,
                 dump_filename))
-            raw = get(dump_path, dump_filename)
+            get(dump_path, dump_filename)
             run("rm %s" % dump_filename)
     
-        local('./manage.py ft_restore_db %s' % dump_filename, capture=False)
-        local('rm %s' % dump_filename)
+        # In a multi-host environment, target hostname is appended. Bleh.
+        new_filename = '%s.%s' % (dump_filename, env['host_string'])
+        local('./manage.py ft_restore_db %s' % new_filename, capture=False)
+        local('rm %s' % new_filename)
         
         # Die after this to prevent executing this with more hosts.
         sys.exit(0)
