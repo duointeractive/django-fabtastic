@@ -23,10 +23,15 @@ our fabfile.py, but you don't have to.
 env.REMOTE_CODEBASE_PATH = '/home/account/codebase'
 # Path relative to REMOTE_CODEBASE_PATH.
 env.PIP_REQUIREMENTS_PATH = 'requirements.txt'
-# This is used for reloading gunicorn processes after code updates.
-env.GUNICORN_PID_PATH = os.path.join(env.REMOTE_CODEBASE_PATH, 'gunicorn.pid')
 # The standardized virtualenv name to use.
 env.REMOTE_VIRTUALENV_NAME = 'your_virtualenv'
+
+# This is used for reloading gunicorn processes after code updates.
+# Only needed for gunicorn-related tasks.
+env.GUNICORN_PID_PATH = os.path.join(env.REMOTE_CODEBASE_PATH, 'gunicorn.pid')
+# S3 bucket for s3cmd to upload DB backups to. 
+# Only needed for backup_db_to_s3
+env.S3_DB_BACKUP_BUCKET = 'db_backups'
 
 def staging():
     """

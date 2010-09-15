@@ -20,7 +20,9 @@ def backup_db_to_s3():
                 env.REMOTE_VIRTUALENV_NAME,
                 dump_filename))
             # Now upload via s3cmd. See note above about s3cmd --configure.
-            run("s3cmd put %s s3://ligonier-db-backup/%s" % (dump_path, dump_filename))
+            run("s3cmd put %s s3://%s/%s" % (dump_path,
+                                             env.S3_DB_BACKUP_BUCKET, 
+                                             dump_filename))
             run("rm %s" % dump_filename)
         
         # Die after this to prevent executing this with more hosts.
