@@ -21,7 +21,7 @@ class Command(BaseCommand):
         
         # Now upload via s3cmd. See note above about s3cmd --configure.
         cmd = ['s3cmd', 'put']
-        cmd.append(env.S3_DB_BACKUP_BUCKET)
+        cmd.append(dump_filename)
         cmd.append('s3://%s/%s' % (env.S3_DB_BACKUP_BUCKET, dump_filename))
         call(cmd)
         
