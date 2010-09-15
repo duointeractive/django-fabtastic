@@ -117,7 +117,9 @@ django-fabtastic is primarily for DUO's deployments, so some of it is aimed to
 fit our usage case. As is such, unless you use all of our dependencies, the
 following line might need to be made a little more specific::
 
+```python
     from fabtastic.fabric.commands import *
+```
 
 It is important to note that you can selectively import commands from
 ``fabtastic.fabric.commands``. See the note and example in ``examples/fabfile.py``.
