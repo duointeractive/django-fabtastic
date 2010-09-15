@@ -6,6 +6,30 @@ from fabtastic.fabric.util import _current_host_has_role
    
 def get_remote_db(roles='webapp_servers'):
     """
+    Retrieves a remote DB dump and dumps it in your project's root directory.
+    """
+    if _current_host_has_role(roles):
+        dump_filename = db.util.get_db_dump_filename()
+        dump_path = os.path.join(env.REMOTE_CODEBASE_PATH, dump_filename)
+        
+        with cd(env.REMOTE_CODEBASE_PATH):
+            run("workon %s && ./manage.py ft_dump_db %s" % (
+                env.REMOTE_VIRTUALENV_NAME,
+                dump_filename))
+            get(dump_path, dump_filename)
+            run("rm %s" % dump_filename)
+    
+        # In a multi-host environment, target hostname is appended by Fabric.
+        # TODO: Make this use Fabric 1.0's improved get() when it's released.
+        new_filename = '%s.%s' % (dump_filename, env['host'])
+        # Move it back to what it should be.
+        local('mv %s %s' % (new_filename, dump_filename))
+        
+        # Die after this to prevent executing this with more hosts.
+        sys.exit(0)
+        
+def sync_to_remote_db(roles='webapp_servers'):
+    """
     Retrieves a remote DB dump, wipes your local DB, and installs the
     remote copy in place.
     """
