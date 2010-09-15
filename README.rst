@@ -117,9 +117,7 @@ django-fabtastic is primarily for DUO's deployments, so some of it is aimed to
 fit our usage case. As is such, unless you use all of our dependencies, the
 following line might need to be made a little more specific::
 
-```python
     from fabtastic.fabric.commands import *
-```
 
 It is important to note that you can selectively import commands from
 ``fabtastic.fabric.commands``. See the note and example in ``examples/fabfile.py``.
@@ -132,5 +130,3 @@ or look at our `git repository`_.
 .. _DUO Interactive: http://duointeractive.com
 .. _Fabric: http://docs.fabfile.org/
 .. _Django: http://djangoproject.com
-.. _virtualenv: http://pypi.python.org/pypi/virtualenv
-.. _virtualenvwrapper: http://pypi.python.org/pypi/virtualenvwrapper
