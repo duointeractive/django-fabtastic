@@ -26,9 +26,9 @@ class Command(BaseCommand):
         self.options = options
         
         # Get DB settings from settings.py.
-        self.DATABASE = db.util.get_db_setting_dict()
+        database = db.util.get_db_setting_dict()
         # Figure out where to dump the file to.
         dump_path = self.get_dump_path()
 
         # Run the db dump.
-        db.dump_db_to_file(dump_path, self.DATABASE)
+        db.dump_db_to_file(dump_path, database)
