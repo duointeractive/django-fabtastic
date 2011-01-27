@@ -2,8 +2,9 @@ from __future__ import with_statement
 import os
 
 from django.core import management
-import settings
-management.setup_environ(settings)
+# We have to re-name this to avoid clashes with fabric.api.settings.
+import settings as django_settings
+management.setup_environ(django_settings)
 
 from fabric.api import *
 # This will import every command, you may need to get more selective if
@@ -29,9 +30,14 @@ env.REMOTE_VIRTUALENV_NAME = 'your_virtualenv'
 # This is used for reloading gunicorn processes after code updates.
 # Only needed for gunicorn-related tasks.
 env.GUNICORN_PID_PATH = os.path.join(env.REMOTE_CODEBASE_PATH, 'gunicorn.pid')
-# S3 bucket for s3cmd to upload DB backups to. 
-# Only needed for backup_db_to_s3
-env.S3_DB_BACKUP_BUCKET = 'db_backups'
+
+# Only needed for those using the ft_backup_db_to_s3 management command.
+# Options for configuring the S3 DB backups.
+env.S3_DB_BACKUP = {
+    'BUCKET': 'your_db_backup_bucket',
+    'AWS_ACCESS_KEY_ID': django_settings.AWS_ACCESS_KEY_ID,
+    'AWS_SECRET_ACCESS_KEY': django_settings.AWS_SECRET_ACCESS_KEY,
+}
 
 def staging():
     """
@@ -39,7 +45,7 @@ def staging():
     deployment tasks get ran on every member of env.hosts.
     """
     env.hosts = ['staging.example.org']
-    
+
 def prod():
     """
     Set env.roledefs according to our deployment setup. From this, an
@@ -54,10 +60,10 @@ def prod():
     env.roledefs['media_servers'] = ['media1.example.org']
     # Postgres servers.
     env.roledefs['db_servers'] = ['db1.example.org']
-    
+
     # Combine all of the roles into the env.hosts list.
     env.hosts = [host[0] for host in env.roledefs.values()]
-    
+
 def deploy():
     """
     Full git deployment. Migrations, reloading gunicorn.
