@@ -31,14 +31,6 @@ env.REMOTE_VIRTUALENV_NAME = 'your_virtualenv'
 # Only needed for gunicorn-related tasks.
 env.GUNICORN_PID_PATH = os.path.join(env.REMOTE_CODEBASE_PATH, 'gunicorn.pid')
 
-# Only needed for those using the ft_backup_db_to_s3 management command.
-# Options for configuring the S3 DB backups.
-env.S3_DB_BACKUP = {
-    'BUCKET': 'your_db_backup_bucket',
-    'AWS_ACCESS_KEY_ID': django_settings.AWS_ACCESS_KEY_ID,
-    'AWS_SECRET_ACCESS_KEY': django_settings.AWS_SECRET_ACCESS_KEY,
-}
-
 def staging():
     """
     Sets env.hosts to the sole staging server. No roledefs means that all
