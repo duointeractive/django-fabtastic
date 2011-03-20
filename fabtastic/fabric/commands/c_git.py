@@ -9,3 +9,5 @@ def git_pull(roles='webapp_servers'):
         print("=== PULLING FROM GIT ===")
         with cd(env.REMOTE_CODEBASE_PATH):
             run("git pull")
+            # Remove .pyc files for modules that no longer exist.
+            run("find . -name '*.pyc' -delete")
