@@ -21,4 +21,4 @@ def supervisord_restart_prog(program, roles='webapp_servers'):
         print("=== RESTARTING SUPERVISORD PROGRAMS ===")
         with cd(env.REMOTE_CODEBASE_PATH):
             run("workon %s && ./manage.py ft_supervisord_restart_prog %s" % (
-                program, env.REMOTE_VIRTUALENV_NAME))
+                env.REMOTE_VIRTUALENV_NAME, program))
