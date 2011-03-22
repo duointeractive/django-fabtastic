@@ -56,6 +56,15 @@ def sync_to_remote_db(roles='webapp_servers'):
         # Die after this to prevent executing this with more hosts.
         sys.exit(0)
 
+def supervisord_restart_all(roles='webapp_servers'):
+    """
+    Restarts all of supervisord's managed programs.
+    """
+    if _current_host_has_role(roles):
+        print("=== RESTARTING SUPERVISORD PROGRAMS ===")
+        with cd(env.REMOTE_CODEBASE_PATH):
+            run("workon %s && ./manage.py ft_supervisord_restart_all" % env.REMOTE_VIRTUALENV_NAME)
+
 def flush_cache(roles='webapp_servers'):
     """
     Flushes the cache.
