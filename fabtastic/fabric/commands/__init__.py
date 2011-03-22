@@ -1,5 +1,6 @@
 from fabtastic.fabric.commands.c_common import *
 from fabtastic.fabric.commands.c_git import *
+from fabtastic.fabric.commands.c_supervisord import *
 from fabtastic.fabric.commands.c_s3cmd import *
 
 try:
