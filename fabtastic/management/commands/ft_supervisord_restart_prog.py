@@ -11,7 +11,7 @@ class Command(BaseCommand):
         cmd = ['supervisorctl', 'restart']
 
         if self.args:
-            cmd.append(self.args[0])
+            cmd += self.args
         else:
             cmd.append('all')
 
