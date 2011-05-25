@@ -13,5 +13,5 @@ def celeryd_restart(roles='webapp_servers'):
     if _current_host_has_role(roles):
         print("=== RESTARTING CELERY DAEMON ===")
         with cd(env.REMOTE_CODEBASE_PATH):
-            run("./manage.py ft_celeryd_restart")
+            run("workon %s && ./manage.py ft_celeryd_restart" % env.REMOTE_VIRTUALENV_NAME)
             print "Celery shutdown broadcasted, workers restarting."
