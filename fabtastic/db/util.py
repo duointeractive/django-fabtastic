@@ -6,18 +6,14 @@ from django.conf import settings
 
 def get_db_setting(db_setting, db_alias='default'):
     """
-    Gets a database setting from settings.py. Extra logic to support
-    Django 1.1 and Django 1.2.
+    Gets a database setting from settings.py.
     
-    db_setting: (str) One of the database setting names (with key values
-                      matching Django 1.2). For example, 'name', 'port', 'host'.
+    db_setting: (str) One of the database setting names.
+        For example, 'NAME', 'PORT', 'HOST'.
     db_alias: (str) In the case of settings in Django 1.2 format, get settings
                     for a DB other than the default.
     """
-    if hasattr(settings, 'DATABASES'):
-        return settings.DATABASES[db_alias][db_setting]
-    else:
-        return getattr(settings, 'DATABASE_%s' % db_setting.upper())
+    return settings.DATABASES[db_alias].get(db_setting, '')
     
 def get_db_setting_dict(db_alias='default'):
     """
@@ -26,12 +22,12 @@ def get_db_setting_dict(db_alias='default'):
     earlier.
     """
     return {
-        'ENGINE': get_db_setting('ENGINE', db_alias),
-        'NAME': get_db_setting('NAME', db_alias),
-        'HOST': get_db_setting('HOST', db_alias),
-        'PORT': get_db_setting('PORT', db_alias),
-        'USER': get_db_setting('USER', db_alias),
-        'PASSWORD': get_db_setting('PASSWORD', db_alias),
+        'ENGINE': get_db_setting('ENGINE', db_alias=db_alias),
+        'NAME': get_db_setting('NAME', db_alias=db_alias),
+        'HOST': get_db_setting('HOST', db_alias=db_alias),
+        'PORT': get_db_setting('PORT', db_alias=db_alias),
+        'USER': get_db_setting('USER', db_alias=db_alias),
+        'PASSWORD': get_db_setting('PASSWORD', db_alias=db_alias),
     }
     
 def get_db_dump_filename(db_alias='default'):
