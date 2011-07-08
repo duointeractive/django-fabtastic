@@ -10,10 +10,11 @@ class Command(BaseCommand):
     help = 'Backs the DB up to S3. Make sure to run s3cmd --configure.'
 
     def handle(self, *args, **options):
+        db_alias = getattr(settings, 'FABTASTIC_DUMP_DB_ALIAS', 'default')
         # Get DB settings from settings.py.
-        database = db.util.get_db_setting_dict()
+        database = db.util.get_db_setting_dict(db_alias=db_alias)
         # Generate a temporary DB dump filename.      
-        dump_filename = db.util.get_db_dump_filename()
+        dump_filename = db.util.get_db_dump_filename(db_alias=db_alias)
         # Carry out the DB dump.
         dump_file_path = db.dump_db_to_file(dump_filename, database)
 
