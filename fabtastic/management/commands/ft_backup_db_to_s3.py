@@ -8,7 +8,7 @@ from fabtastic import db
 from fabtastic.util.aws import get_s3_connection
 
 class Command(BaseCommand):
-    help = 'Backs the DB up to S3. Make sure to run s3cmd --configure.'
+    help = 'Backs the DB up to S3.'
 
     def handle(self, *args, **options):
         db_alias = getattr(settings, 'FABTASTIC_DUMP_DB_ALIAS', 'default')
