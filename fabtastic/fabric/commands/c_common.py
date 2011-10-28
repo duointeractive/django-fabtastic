@@ -44,7 +44,7 @@ def sync_to_remote_db(roles='webapp_servers'):
             get(dump_path, dump_filename)
             run("rm %s" % dump_filename)
 
-        # In a multi-host environment, target hostname is appended by Fabric. 
+        # In a multi-host environment, target hostname is appended by Fabric.
         # TODO: Make this use Fabric 1.0's improved get() when it's released.
         filename_with_hostname = '%s.%s' % (dump_filename, env['host'])
         if os.path.exists(filename_with_hostname):
@@ -56,7 +56,7 @@ def sync_to_remote_db(roles='webapp_servers'):
         # Die after this to prevent executing this with more hosts.
         sys.exit(0)
 
-def flush_cache(roles='webapp_servers'):
+def flush_cache(roles=['webapp_servers', 'celery_servers']):
     """
     Flushes the cache.
     """
@@ -65,7 +65,7 @@ def flush_cache(roles='webapp_servers'):
         with cd(env.REMOTE_CODEBASE_PATH):
             run("workon %s && ./manage.py ft_clear_cache" % env.REMOTE_VIRTUALENV_NAME)
 
-def pip_update_reqs(roles='webapp_servers'):
+def pip_update_reqs(roles=['webapp_servers', 'celery_servers']):
     """
     Updates your virtualenv from requirements.txt.
     """
@@ -74,7 +74,7 @@ def pip_update_reqs(roles='webapp_servers'):
         with cd(env.REMOTE_CODEBASE_PATH):
             run("workon %s && ./manage.py ft_pip_update_reqs" % env.REMOTE_VIRTUALENV_NAME)
 
-def fabtastic_update(roles='webapp_servers'):
+def fabtastic_update(roles=['webapp_servers', 'celery_servers']):
     """
     Updates your copy of django-fabtastic from the git repository.
     """

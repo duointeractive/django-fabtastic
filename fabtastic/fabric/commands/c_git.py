@@ -1,7 +1,7 @@
 from fabric.api import *
 from fabtastic.fabric.util import _current_host_has_role
 
-def git_pull(roles='webapp_servers'):
+def git_pull(roles=['webapp_servers', 'celery_servers']):
     """
     Pulls the latest master branch from the git repo.
     """
