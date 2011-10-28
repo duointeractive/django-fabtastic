@@ -1,11 +1,11 @@
 from fabric.api import *
 from fabtastic.fabric.util import _current_host_has_role
 
-def celeryd_restart(roles='webapp_servers'):
+def celeryd_restart(roles='celery_servers'):
     """
     Reloads celeryd. This must be done to re-compile the code after a new
     revision has been checked out.
-    
+
     NOTE: This broadcasts a 'shutdown' call to all celery workers. You must have
     supervisor or something running to start them back up, or this ends up
     just being a shutdown (sans restart).
