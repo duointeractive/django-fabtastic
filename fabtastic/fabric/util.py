@@ -13,10 +13,10 @@ def _current_host_has_role(roles):
     # Otherwise check the role list for the current host in env.
     if isinstance(roles, basestring):
         # roles is a string.
-        return env['host_string'] in env.roledefs[roles]
+        return env['host_string'] in env.roledefs.get(roles, [])
     else:
         # roles is a list of roles.
         for role in roles:
-            if env['host_string'] in env.roledefs[role]:
+            if env['host_string'] in env.roledefs.get(role, []):
                 return True
         return False
