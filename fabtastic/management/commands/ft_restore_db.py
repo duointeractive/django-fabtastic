@@ -1,12 +1,21 @@
-import os
-from datetime import datetime
+from optparse import make_option
+
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-from django.contrib.contenttypes.models import ContentType
+
 from fabtastic import db
 
 class Command(BaseCommand):
     args = '[<output_file_path>]'
     help = 'Restores a DB from a SQL dump file.'
+
+    option_list = BaseCommand.option_list + (
+        make_option('-f',
+                    action='store_true',
+                    dest='prod_override',
+                    default=False,
+                    help='Override to allow restoring DB in production.'),
+        )
                                
     def handle(self, *args, **options):
         """
@@ -14,9 +23,16 @@ class Command(BaseCommand):
         """
         self.args = args
         self.options = options
-        
+
         if len(self.args) < 1:
-            raise CommandError('You must specify the path to the DB dump file to restore from.')
+            raise CommandError("ft_restore_db: You must specify the path to "
+                               "the DB dump file to restore from.")
+
+        is_production = getattr(settings, 'IS_PRODUCTION', False)
+        has_prod_override = self.options['prod_override']
+        if is_production and not has_prod_override:
+            raise CommandError("ft_restore_db: Not allowed in production. "
+                               "Use -f option to override.")
 
         # Path to file to restore from.
         dump_path = self.args[0]
