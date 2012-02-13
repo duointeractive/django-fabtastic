@@ -13,9 +13,17 @@ class Command(BaseCommand):
             print "==== Version mis-matches ===="
             for pkg_tuple in wrong_version_pkgs:
                 pkg_name, req_version, local_version = pkg_tuple
-                print ' %s %s -> %s' % (pkg_name, req_version, local_version)
+                print ' %s==%s in reqs.txt, but %s==%s local' % (
+                    pkg_name,
+                    req_version,
+                    pkg_name,
+                    local_version
+                )
 
         if missing_pkgs:
-            print "==== Missing packages ===="
+            print "==== Missing (locally) packages ===="
             for pkg_name in missing_pkgs:
                 print ' %s' % pkg_name
+
+        if not wrong_version_pkgs and not missing_pkgs:
+            print "Your local environment is up to date, good job."
