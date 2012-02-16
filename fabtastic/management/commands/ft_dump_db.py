@@ -25,7 +25,7 @@ class Command(BaseCommand):
         self.args = args
         self.options = options
 
-        db_alias = getattr(settings, 'FABTASTIC_DUMP_DB_ALIAS', 'default')
+        db_alias = getattr(settings, 'FABTASTIC_DIRECT_TO_DB_ALIAS', 'default')
         # Get DB settings from settings.py.
         database = db.util.get_db_setting_dict(db_alias=db_alias)
         # Figure out where to dump the file to.

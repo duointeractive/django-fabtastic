@@ -11,7 +11,7 @@ class Command(BaseCommand):
     help = 'Backs the DB up to S3.'
 
     def handle(self, *args, **options):
-        db_alias = getattr(settings, 'FABTASTIC_DUMP_DB_ALIAS', 'default')
+        db_alias = getattr(settings, 'FABTASTIC_DIRECT_TO_DB_ALIAS', 'default')
         # Get DB settings from settings.py.
         database = db.util.get_db_setting_dict(db_alias=db_alias)
         # Generate a temporary DB dump filename.      
