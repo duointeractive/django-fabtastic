@@ -16,7 +16,7 @@ class Command(BaseCommand):
                     default=False,
                     help='Override to allow restoring DB in production.'),
         )
-                               
+
     def handle(self, *args, **options):
         """
         Handle raw input.
@@ -36,9 +36,10 @@ class Command(BaseCommand):
 
         # Path to file to restore from.
         dump_path = self.args[0]
-        
+
+        db_alias = getattr(settings, 'FABTASTIC_DIRECT_TO_DB_ALIAS', 'default')
         # Get DB settings from settings.py.
-        database_dict = db.util.get_db_setting_dict()
+        database_dict = db.util.get_db_setting_dict(db_alias=db_alias)
 
         # Drop the DB.
         db.drop_db(database_dict)
