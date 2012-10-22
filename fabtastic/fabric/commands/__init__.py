@@ -10,6 +10,12 @@ except ImportError:
     pass
 
 try:
+    import compressor
+    from fabtastic.fabric.commands.c_compressor import *
+except ImportError:
+    pass
+
+try:
     import south
     from fabtastic.fabric.commands.c_south import *
 except ImportError:
