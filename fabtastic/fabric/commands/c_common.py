@@ -82,3 +82,13 @@ def fabtastic_update(roles=['webapp_servers', 'celery_servers']):
         print("=== UPDATING FABTASTIC ===")
         with cd(env.REMOTE_CODEBASE_PATH):
             run("workon %s && ./manage.py ft_fabtastic_update" % env.REMOTE_VIRTUALENV_NAME)
+
+def collectstatic(roles='webapp_servers'):
+    """
+    Syncs the checked out git media with S3.
+    """
+    if _current_host_has_role(roles) and not env.already_media_synced:
+        print("=== SYNCING STATIC MEDIA WITH S3 ===")
+        with cd(env.REMOTE_CODEBASE_PATH):
+            run("workon %s && ./manage.py collectstatic --noinput" % env.REMOTE_VIRTUALENV_NAME)
+        env.already_media_synced = True
