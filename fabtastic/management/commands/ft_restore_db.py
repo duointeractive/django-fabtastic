@@ -17,6 +17,8 @@ class Command(BaseCommand):
                     help='Override to allow restoring DB in production.',
         )
 
+        parser.add_argument('dump_file_name', nargs='+', type=str)
+
     def handle(self, *args, **options):
         """
         Handle raw input.
@@ -24,7 +26,7 @@ class Command(BaseCommand):
         self.args = args
         self.options = options
 
-        if len(self.args) < 1:
+        if not self.options['dump_file_name']:
             raise CommandError("ft_restore_db: You must specify the path to "
                                "the DB dump file to restore from.")
 
@@ -35,7 +37,7 @@ class Command(BaseCommand):
                                "Use -f option to override.")
 
         # Path to file to restore from.
-        dump_path = self.args[0]
+        dump_path = self.options['dump_file_name']
 
         db_alias = getattr(settings, 'FABTASTIC_DIRECT_TO_DB_ALIAS', 'default')
         # Get DB settings from settings.py.
