@@ -9,8 +9,8 @@ class Command(BaseCommand):
     args = '[<output_file_path>]'
     help = 'Restores a DB from a SQL dump file.'
 
-    option_list = BaseCommand.option_list + (
-        make_option('-f',
+    def add_arguments(self, parser):
+        parser.add_argument('--force', '-f',
                     action='store_true',
                     dest='prod_override',
                     default=False,
