@@ -14,7 +14,7 @@ class Command(BaseCommand):
                     action='store_true',
                     dest='prod_override',
                     default=False,
-                    help='Override to allow restoring DB in production.'),
+                    help='Override to allow restoring DB in production.',
         )
 
     def handle(self, *args, **options):
