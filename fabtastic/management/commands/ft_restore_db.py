@@ -17,7 +17,7 @@ class Command(BaseCommand):
                     help='Override to allow restoring DB in production.',
         )
 
-        parser.add_argument('dump_file_name', nargs='+', type=str)
+        parser.add_argument('dump_file_name', nargs='?', default='latest_db.sql.tar.bz2')
 
     def handle(self, *args, **options):
         """
